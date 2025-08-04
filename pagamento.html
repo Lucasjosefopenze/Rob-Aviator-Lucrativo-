@@ -1,0 +1,256 @@
+<!-- CÓDIGO COMPLETO HTML ABAIXO -->
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RoboAviator | Pagamento Seguro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f0f4f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      max-width: 440px;
+      width: 100%;
+      padding: 24px;
+      text-align: center;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a73e8;
+      margin-bottom: 4px;
+    }
+    .tagline {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 16px;
+    }
+    .logos {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .logo-img {
+      height: 50px;
+      object-fit: contain;
+    }
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #333;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    .btn-pay {
+      margin-top: 10px;
+      width: 100%;
+      padding: 12px;
+      background-color: #1a73e8;
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: 0.3s;
+    }
+    .btn-pay:hover {
+      background-color: #0f5fc4;
+    }
+    .loader {
+      display: none;
+      margin-top: 16px;
+      text-align: center;
+      font-size: 14px;
+      color: #444;
+    }
+    .spinner {
+      width: 30px;
+      height: 30px;
+      border: 4px solid #ddd;
+      border-top: 4px solid #1a73e8;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 8px auto;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .status {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+    }
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .footer {
+      margin-top: 24px;
+      font-size: 12px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="logo">RoboAviator</div>
+    <div class="tagline">Pague com segurança via M-Pesa</div>
+
+    <div class="logos">
+      <img src="https://i.postimg.cc/2ScWVfxH/transferir.png" alt="M-Pesa" class="logo-img">
+    </div>
+
+    <form id="paymentForm">
+      <div class="form-group">
+        <label for="numero">Número M-Pesa (84/85/86/87)</label>
+        <input type="tel" id="numero" placeholder="841234567" pattern="[8][4-7][0-9]{7}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="whatsapp">Seu WhatsApp</label>
+        <input type="tel" id="whatsapp" placeholder="841234567" pattern="[8][4-7][0-9]{7}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Seu E-mail</label>
+        <input type="email" id="email" placeholder="seunome@email.com" required>
+      </div>
+
+      <button type="submit" class="btn-pay">
+        <span class="material-icons">send</span>
+        Pagar 500 MZN
+      </button>
+    </form>
+
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      Enviando solicitação...
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <div class="footer">Powered by <strong>Aviator.vercel.app</strong></div>
+  </div>
+
+  <script>
+    const TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImIwMTJjNDM0LTA3NWEtNGUwNy04ZTA3LTcyYTZiZjhkMmZmYyIsImVtYWlsIjoibHVjYXNhdmlhdG9yMjU4QGdtYWlsLmNvbSIsImlhdCI6MTc1NDMwMzI1NywiZXhwIjoxNzU0MzA2ODU3fQ.qxa-nD5eSx1GxHtGdMyfoSjQ7TBeUhbJlwaf_8f9o-U";
+    const API_KEY = "05747a33f80c6ece482480f63538dd640107b08573654057f52f06f418b3f07e9b8e98e500fc11f64842705d0c7b1931ed87ef8f465b73f78df9c70c83a1c73c";
+    const NOME_CARTEIRA = "Aviatorbot";
+    let WALLET_ID = null;
+
+    async function buscarCarteira() {
+      const res = await fetch(`https://gibrapay.online/v1/wallets?token=${TOKEN}`);
+      const data = await res.json();
+      if (data.status === "success") {
+        const wallet = data.data.find(w => w.nome === NOME_CARTEIRA);
+        if (!wallet) throw new Error("Carteira não encontrada.");
+        WALLET_ID = wallet.id;
+        return wallet.id;
+      } else {
+        throw new Error(data.message || "Erro ao buscar carteiras");
+      }
+    }
+
+    async function fazerTransferencia(numero, whatsapp, email) {
+      const valor = 500;
+      const res = await fetch("https://gibrapay.online/v1/transfer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "API-Key": API_KEY
+        },
+        body: JSON.stringify({
+          wallet_id: WALLET_ID,
+          amount: valor,
+          number_phone: numero,
+          alert_sms: {
+            api_key: "2321:rTe9Gp-bkT7xs-3maVnL-zqLkP3",
+            sender_id: "MozStore",
+            phone: "852154364",
+            phone_customer: numero,
+            message: `Pagamento de ${valor} MZN confirmado. WhatsApp: ${whatsapp}, Email: ${email}`,
+            customer_message: `Seu pagamento de ${valor} MZN foi confirmado. Você receberá o app via WhatsApp ou Email.`
+          }
+        })
+      });
+      return await res.json();
+    }
+
+    document.getElementById("paymentForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const numero = document.getElementById("numero").value;
+      const whatsapp = document.getElementById("whatsapp").value;
+      const email = document.getElementById("email").value;
+      const status = document.getElementById("status");
+      const loader = document.getElementById("loader");
+
+      if (!/^[8][4-7]\d{7}$/.test(numero)) {
+        status.textContent = "❌ Número M-Pesa inválido. Use 84, 85, 86 ou 87.";
+        status.className = "status error";
+        status.style.display = "block";
+        return;
+      }
+
+      status.style.display = "none";
+      loader.style.display = "block";
+
+      try {
+        if (!WALLET_ID) await buscarCarteira();
+        const result = await fazerTransferencia(numero, whatsapp, email);
+        loader.style.display = "none";
+
+        if (result.status === "success") {
+          status.innerHTML = `✅ Pagamento de <strong>500 MZN</strong> enviado com sucesso! Você receberá acesso completo em breve.`;
+          status.className = "status success";
+          document.getElementById("paymentForm").reset();
+        } else {
+          let msg = result.message || "Erro desconhecido";
+          status.textContent = "❌ " + msg;
+          status.className = "status error";
+        }
+        status.style.display = "block";
+      } catch (err) {
+        loader.style.display = "none";
+        status.textContent = "🚨 Erro: " + err.message;
+        status.className = "status error";
+        status.style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>

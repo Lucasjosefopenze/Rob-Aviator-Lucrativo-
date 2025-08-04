@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Robô Aviator Lucrativo - Início</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #0e0e0e;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: #00ff88;
+    }
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      color: #ccc;
+    }
+    .botao {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #00ff88;
+      color: #000;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
+      margin: 10px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .botao:hover {
+      background: #00cc6a;
+    }
+    .botao.desativado {
+      background: #555;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="https://i.postimg.cc/zf4795mb/Picsart-25-02-17-16-18-15-030.jpg" alt="Imagem Robô Aviator">
+  <h1>Robô Aviator Lucrativo</h1>
+  <p>Antes de continuar, entre no nosso grupo VIP do WhatsApp para receber todas as instruções.</p>
+
+  <a id="botaoWhatsApp" href="https://chat.whatsapp.com/Fi1QPkZufqUEJU8sVWad1S?mode=ac_t" target="_blank" class="botao">Entrar no Grupo do WhatsApp</a>
+
+  <br>
+
+  <a id="botaoContinuar" href="beneficios.html" class="botao desativado">Continuar</a>
+
+  <script>
+    const botaoWhatsApp = document.getElementById('botaoWhatsApp');
+    const botaoContinuar = document.getElementById('botaoContinuar');
+
+    botaoWhatsApp.addEventListener('click', () => {
+      // Quando o usuário clica no botão do WhatsApp, liberamos o botão Continuar
+      botaoContinuar.classList.remove('desativado');
+    });
+  </script>
+
+</body>
+</html>

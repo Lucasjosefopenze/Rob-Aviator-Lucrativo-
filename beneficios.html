@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Robô Aviator Lucrativo - Registro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #0e0e0e;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+      color: #00ff88;
+    }
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: #ccc;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .destaque {
+      color: #00ff88;
+      font-weight: bold;
+    }
+    .botao {
+      display: inline-block;
+      padding: 15px 30px;
+      background: #00ff88;
+      color: #000;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
+      margin: 10px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .botao:hover {
+      background: #00cc6a;
+    }
+    .botao.desativado {
+      background: #555;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Efeito pulsante para o botão de registro */
+    .efeito-pulso {
+      animation: pulse 1.5s infinite;
+      box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7);
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 15px rgba(0, 255, 136, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 255, 136, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Como Baixar o Robô Aviator Exclusivo</h1>
+
+  <p>Para garantir acesso ao nosso <span class="destaque">Robô Aviator Lucrativo</span> 100% automático e conectado à melhor plataforma de apostas, siga estes passos:</p>
+
+  <p>✅ Registre-se na <span class="destaque">plataforma oficial</span>.</p>
+  <p>✅ Faça um depósito mínimo de <span class="destaque">50MT</span>.</p>
+  <p>✅ Após o depósito, o link de download será liberado totalmente grátis.</p>
+
+  <p>Este é o <span class="destaque">melhor Aviator exclusivo</span> do mercado, com resultados comprovados e suporte dedicado.</p>
+
+  <!-- Botão de registro com efeito -->
+  <a id="botaoRegistrar" href="https://abre.ai/mega-aviator-actualizado-2025" target="_blank" class="botao efeito-pulso">
+    Registrar na Plataforma Oficial
+  </a>
+
+  <br>
+
+  <!-- Botão de download inicialmente desativado -->
+  <a id="botaoDownload" href="download.html" class="botao desativado">
+    Obter Link de Download
+  </a>
+
+  <script>
+    const botaoRegistrar = document.getElementById('botaoRegistrar');
+    const botaoDownload = document.getElementById('botaoDownload');
+
+    botaoRegistrar.addEventListener('click', () => {
+      // Libera o botão de download após clique
+      botaoDownload.classList.remove('desativado');
+    });
+  </script>
+
+</body>
+</html>
